@@ -6,13 +6,17 @@ import { Client, Connection } from 'pg';
 export class AppService {
 
   constructor(
-    @Inject( 'PG' ) private db: Client
+    @Inject( 'PG' ) private clientePg: Client
   ) { }
 
   getHello() {
-    this.db.query( 'SELECT * FROM tasks', ( err, res ) => {
-      console.error( err );
-      console.log( res.rows );
+    return new Promise( ( resolve, reject ) => {
+      this.clientePg.query( 'SELECT * FROM tasks', ( err, res ) => {
+        if ( err ) {
+          reject( err );
+        }
+        resolve( res.rows );
+      } );
     } );
   }
 }

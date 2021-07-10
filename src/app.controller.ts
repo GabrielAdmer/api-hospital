@@ -10,7 +10,7 @@ export class AppController {
   getHello(
     @Req() request: Request, @Res() response: Response
   ) {
-    //return this.appService.getHello();
+    // return this.appService.getHello();
 
   }
 
