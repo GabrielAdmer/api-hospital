@@ -72,4 +72,11 @@ export class UserService {
   removeOne( id: number ) {
     return this.userRepo.delete( id );
   };
+
+  //**** Buscar por email **/
+
+  findByEmail( email: string ) {
+    return this.userRepo.findOne( { where: { email: email } } );
+  }
+
 }
