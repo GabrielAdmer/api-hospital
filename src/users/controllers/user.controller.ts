@@ -1,8 +1,14 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { ApiTags } from '@nestjs/swagger';
 
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { IsPublic } from 'src/auth/decorators/ispublic.decorator';
+import { Request } from 'express';
+import { PayloadToken } from 'src/auth/models/payloadToken.interface';
+
+@UseGuards( JwtAuthGuard )
 @ApiTags( 'Users' )
 @Controller( 'users' )
 export class UserController {
@@ -17,6 +23,7 @@ export class UserController {
     return { users };
   };
 
+  @IsPublic()
   @Get( ':id' )
   async findOne(
     @Param( 'id', ParseIntPipe ) id: number
@@ -47,4 +54,14 @@ export class UserController {
   ) {
     return this.userService.removeOne( id );
   };
+
+  @Get( 'pedidos/todo' )
+  pedidos(
+    @Req() req: Request
+  ) {
+    const id = req.user as PayloadToken;
+    return {
+      id: id.sub
+    };
+  }
 }
