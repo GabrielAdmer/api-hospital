@@ -27,7 +27,7 @@ export class UserService {
 
   async findOne( id: number ) {
 
-    const user = await this.userRepo.findOne( { id: id } );
+    const user = await this.userRepo.findOne( { id: id }, { relations: [ 'hospitales' ] } );
     if ( !user ) {
       throw new NotFoundException( `Id #${id} no encontrado` );
     }

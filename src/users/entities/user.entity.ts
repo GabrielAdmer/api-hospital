@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Hospital } from 'src/hospitales/entities/hospital.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity( 'users' )
 export class User {
@@ -24,4 +25,6 @@ export class User {
   @Column( { type: 'bool', default: false } )
   google: boolean;
 
+  @OneToMany( () => Hospital, ( hospital ) => hospital.user, { nullable: true } )
+  hospitales: Hospital[];
 }
